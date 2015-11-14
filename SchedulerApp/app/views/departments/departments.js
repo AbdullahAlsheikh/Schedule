@@ -22,8 +22,6 @@ function onPageLoaded(args) {
     page.bindingContext = {sessionName: session.name, myItems: array};
     allDepartments = array;
   });
-
-  
 }
 exports.onPageLoaded = onPageLoaded;
 var numClicked = 0;

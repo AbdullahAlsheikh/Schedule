@@ -25,14 +25,26 @@ function onPageLoaded(args) {
   coursesArr.forEach(function(course) {
      course.sections.forEach(function(section) {
       section.getRating = getRating(section.instructor);
+      section.toggleCart = toggleCart(section);
      });
      courses.push(course);
   });
   page.bindingContext = {title: context.title, myItems: courses};
-
 };
 
 exports.onPageLoaded = onPageLoaded;
+function toggleCart(section) {
+  return function(event) {
+    console.log("toggle cart");
+    var target = event.object;
+    if(!section.hasOwnProperty('inCart')) {
+      section.inCart = true;
+    } else {
+      section.inCart = !section.inCart;
+    }
+    target.text = section.inCart? "X" : "Add";
+  };
+}
 function getRating(professorName) {
   return function(event) {
     console.log("get rating!");
