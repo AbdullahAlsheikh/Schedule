@@ -9,8 +9,10 @@ var frameModule = require("ui/frame");
 
 var allDepartments;
 var session;
+var thisPage;
 function onPageLoaded(args) {
   var page = args.object;
+  thisPage = page;
   if(page && page.navigationContext) {
     session = args.object.navigationContext;
   }
@@ -38,6 +40,25 @@ exports.onTap = function(a) {
 };
 exports.navigatedTo =  function(eventData) {
     session = eventData.object.navigationContext;
+};
+exports.doSearch =  function(eventData) {
+  console.log("DO SEARCH!");
+  var searchText = thisPage.getViewById("searchField");
+  console.log(searchText.text);
+  var courseList = session.getAllCourses().then(function(courses) {
+    var courseMatch = [];
+    courses.forEach(function(course) {
+      if(course.code.replace(" ", "").indexOf(searchText.text.replace(" ", ""))>=0) {
+        courseMatch.push(course);
+        console.log("MATCH! "+course.code);
+      }
+    });
+    return courseMatch;
+  });
+
+  navigation.goToCourses({courses:courseList, session:session, title:'"'+searchText.text+'"'});
+
+
 };
 
 exports.onTapCart = function(eventData) {

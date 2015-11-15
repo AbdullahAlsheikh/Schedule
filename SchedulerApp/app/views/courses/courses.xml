@@ -1,9 +1,8 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="onPageLoaded" navigatedTo="navigatedTo">
+<Page loaded="onPageLoaded" navigatedTo="navigatedTo">
 
   <page.actionBar>
-    <action-bar title="{{title}}" />
+    <action-bar title="{{title|| 'Loading...'}}" />
   </page.actionBar>
-  <ActivityIndicator busy="{{ isLoading }}" />
 
   <ScrollView>
      <Repeater items="{{ myItems }}" id="courseList">

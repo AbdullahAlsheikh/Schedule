@@ -1,12 +1,19 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="onPageLoaded" navigatedTo="navigatedTo">
 	<page.actionBar>
-		<ActionBar title="{{sessionName}}">
+		<ActionBar title="{{sessionName || 'Loading...'}}">
           <ActionBar.actionItems>
             <ActionItem text="Cart" ios.position="right" tap="onTapCart"/>
           </ActionBar.actionItems>
         </ActionBar>
 	</page.actionBar>
-        <ListView id="listview" items="{{ myItems }}" itemTap="onTap">
+    <GridLayout rows = "44, *" columns="*">
+
+        <GridLayout row="0" columns="*, 88" rows="44">
+            <TextField col="0" text="" id="searchField"/>
+            <Button col="1" text="Search" tap="doSearch"/>
+        </GridLayout>
+
+        <ListView id="listview" items="{{ myItems }}" itemTap="onTap" row="1">
             <ListView.itemTemplate>
                 <GridLayout columns="*,auto" rows="44">
                     <Label col="0" text="{{ name }}" />
@@ -14,4 +21,5 @@
                 </GridLayout>
             </ListView.itemTemplate>
         </ListView>
+    </GridLayout>
 </Page>

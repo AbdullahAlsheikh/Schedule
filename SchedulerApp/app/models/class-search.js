@@ -188,15 +188,22 @@ Session.prototype.getDepartments = function(force) {
   });
 }
 Session.prototype.getAllCourses = function(force) {
+  console.log("get all courses");
   var session = this;
   var allCourses = [];
   return this.getDepartments(force).then(function(departments) {
+    console.log("got departments")
     return Qmap(departments, function(department) {
+      console.log("mapping")
       return department.getCourses(force).then(function(courses) {
+        console.log("adding courses from department: "+department.name + " #"+department.courses.length);
         allCourses.push.apply(allCourses, courses);
         return courses;
+      }, function(err) {
+        console.log("###### ERROR: "+err)
       })
     }).then(function() {
+      console.log("got all courses. returning.")
       return allCourses;
     })
   });

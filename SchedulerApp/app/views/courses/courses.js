@@ -31,7 +31,7 @@ function updateIDs() {
       var courseHeader = courseView.getChildAt(0);
       // console.log("header: "+courseHeader);
       var sectionRepeater = courseView.getChildAt(1);
-      // console.log("repeater: "+sectionRepeater);
+      console.log("repeater: "+sectionRepeater);
       // console.log("get rows:" +courseHeader.getRows());
       var courseInfo;
       courseHeader._eachChildView(function(courseHeaderSubview) {
@@ -44,7 +44,7 @@ function updateIDs() {
       // console.log(classCodeView);
       var classCode = classCodeView.text.replace(' ', '_');
       sectionRepeater.id = classCode;
-      // console.log(classCode);
+      console.log(classCode);
       // console.log();
 
     });
@@ -77,15 +77,17 @@ function onPageLoaded(args) {
   }
   var title = context.title;
   courses = new observableArray.ObservableArray();
-  page.bindingContext = {title: "Loading"};
+
   Q.when(coursesPromise).then(function(coursesArr) {
-    console.log("courses promise resolved")
+    var debugText = JSON.stringify(coursesArr);
+    debugText = debugText.substring(0,Math.min(200,debugText.length));
+    console.log("courses promise resolved"+debugText)
     session = context.session;
 
     var promises = [];
     var chain = Q.when();
     var couldntFindOne = false;
-
+    var bound = false;
     coursesArr.forEach(function(course) {
       course.sections.forEach(function(section) {
         updateSection(section);
@@ -95,19 +97,28 @@ function onPageLoaded(args) {
         section.ratingClass = "sectionRatingDefault";
         var lastName = instructorParts[0];
         var firstNameInitial = instructorParts[1];
-        chain = chain.then(rmp.getProfessor(firstNameInitial, lastName), function(e){console.log("err");console.log(e);});
+        if(professorName === "Staff") {
+          chain = chain.then(Q.resolve("--"))
+        } else {
+          chain = chain.then(rmp.getProfessor(firstNameInitial, lastName), function(e){console.log("err");console.log(e);});
+        }
         chain = chain.then(function(professor) {
 
           // console.log(JSON.stringify(professor));
           if(professor && professor.rating) {
-          //dialogs.alert("Rating: "+professor.rating).then(console.log);
-          section.rating = professor.rating;
-          updateSection(section);
+            //dialogs.alert("Rating: "+professor.rating).then(console.log);
+            var ratingString = professor.rating+"";
+            ratingString = ratingString.substring(0,Math.min(3,ratingString.length));
+
+            section.rating = ratingString;
 
           } else {
             section.rating = "?";
+
             //console.log("not set "+JSON.stringify(professor))
-          }
+          }            
+          updateSection(section);
+
 
         }, function(e) {
         }); // end of then
@@ -121,27 +132,35 @@ function onPageLoaded(args) {
         // console.log("updating "+course.code+" after rmp");
         if(parent && parent.refresh) {
           parent.refresh();
+          console.log("refreshing this guy")
         } else {
 
            console.log("could not find parent for " + parent)
           couldntFindOne = true;
         }
       });
+
+      console.log("push "+course);
       courses.push(course);
       // console.log("pushed course: "+course.code);
     }); // end each(course);
     chain = chain.then(function() {
-      if(couldntFindOne) {
+      if(couldntFindOne && bound) {
+        console.log("forcing refresh")
         refreshAll();
+      } else {
+
       }
-      page.bindingContext.set("isLoading",false);
     });
 
-  page.bindingContext = new observableModule.Observable({title: context.title, myItems: courses, isLoading: true});
-updateIDs();
+      page.bindingContext = new observableModule.Observable({title: context.title, myItems: courses});
+      bound = true;
+      updateIDs();
+console.log(2);
+
   });
   // var coursesArr = context.courses;
-  
+
 
 }
 
