@@ -1,0 +1,18 @@
+<!-- <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="onPageLoaded">
+	<page.actionBar>
+		<action-bar title="Schedule" />
+	</page.actionBar>
+        <ListView id="listview" items="{{ myItems }}" itemTap="onTap">
+            <ListView.itemTemplate>
+                <StackLayout orientation="horizontal">
+                <Image src="{{ icon }}" stretch="aspectFit" />
+                <Label text="{{ name }}" />
+                </StackLayout>
+            </ListView.itemTemplate>
+        </ListView>
+</Page> -->
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="onPageLoaded" navigatedTo="navigatedTo">  <StackLayout>
+     <Label id="Label1" text="This is Label!" />
+     <Button text="This is Button!"/>
+   </StackLayout>
+</Page> 

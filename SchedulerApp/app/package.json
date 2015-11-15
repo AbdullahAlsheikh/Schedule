@@ -1,7 +1,0 @@
-{
-  "main": "app.js",
-  "dependencies": {
-    "q": "^1.4.1",
-    "string": "^3.3.1"
-  }
-}
