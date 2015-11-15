@@ -9,7 +9,7 @@ var Qmap = function map(arr, iterator) {
 function cleanString(str) {
   return str.replace(/\&amp\;/igm, "&");
 }
-
+console.log("class search loaded");
 
 
 /**
@@ -17,8 +17,9 @@ function cleanString(str) {
  * @return {Promise}
  */
 function getSessions() {
+  console.log("get sessions");
   return fetch("http://web.csulb.edu/depts/enrollment/registration/class_schedule/")
-  .then(function(t){return t.text();})
+  .then(function(t){console.log("fetched!");return t.text();})
   .then(function(value) {
     return Q.Promise(function (resolve) {
       var terms = value.match(/\<div class\=\"term\"[\s\S]*?\<\/div\>/igm);
@@ -30,7 +31,7 @@ function getSessions() {
         var iconLink = imageString.substring(imageString.indexOf("\"")+1, imageString.length-1)
         var name = term.match(/\<span\>[\s\S]*?\<\/span\>/igm)[0]
 
-        name = name.replace(/<[^>]*>/igm, "").trim()
+        name = name.replace(/<[^>]*>/igm, "").trim();
         return new Session({ 
           "name" : cleanString(name),
           "url"  : link,
@@ -218,7 +219,8 @@ function Department(data) {
 
 Department.prototype.getCourses = function(force) {
     var dept = this;
-
+    console.log("department courses")
+  console.log(this);
 
   if(this.courses && !force) {
     return new Q.promise(function(resolve) {resolve(dept.courses)});
@@ -382,5 +384,8 @@ if(!module.parent) {
 module.exports = {
   getSessions: getSessions,
   getDepartmentsForSessionURL:getDepartmentsForSessionURL,
-  getCoursesForDepartmentURL:getCoursesForDepartmentURL
+  getCoursesForDepartmentURL:getCoursesForDepartmentURL,
+  Course: Course,
+  Session: Session,
+  Section: Section
 };

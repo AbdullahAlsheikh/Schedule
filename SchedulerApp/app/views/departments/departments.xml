@@ -2,7 +2,7 @@
 	<page.actionBar>
 		<ActionBar title="{{sessionName}}">
           <ActionBar.actionItems>
-            <ActionItem text="Cart" ios.position="right"/>
+            <ActionItem text="Cart" ios.position="right" tap="onTapCart"/>
           </ActionBar.actionItems>
         </ActionBar>
 	</page.actionBar>

@@ -1,5 +1,5 @@
 "use strict";
-var config = require("./config");
+//var config = require("./config");
 var frameModule = require("ui/frame");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
     };
     frameModule.topmost().navigate(navigationEntry);
   },  
-  goToCoursesForSession: function(obj) {
+  goToCourses: function(obj) {
     var navigationEntry2 = {
       moduleName: "views/courses/courses",
       context: obj,
@@ -21,6 +21,7 @@ module.exports = {
     frameModule.topmost().navigate(navigationEntry2);
   },
   startingPage: function() {
+    console.log("getting starting page");
     return "views/sessions/sessions";
   }
 };

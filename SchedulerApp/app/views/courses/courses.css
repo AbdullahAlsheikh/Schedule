@@ -48,15 +48,38 @@ Label {
 }
 .sectionNumber {
   horizontal-align: center;
+
+	padding-left:0;
+	padding-right:0;
 }
-.sectionRating {
+.sectionRatingGood {
 	color:#ffffff;
-	background-color: #7B7B81;
+	background-color: #3DD84C;
+  horizontal-align: center;
+  width:50;
+}
+.sectionRatingBad {
+	color:#ffffff;
+	background-color: #FF1E1D;
   horizontal-align: center;
   width:50;
 }
 
-.sectionAdd {
+.sectionRatingDefault {
+	color:#ffffff;
+	background-color: #000000;
+  horizontal-align: center;
+  width:50;
+}
+.removeFromCart {
+	font-size:25;
+	color:#ffffff;
+	background-color: #ff0000;
+	width:50; 
+}
+.addToCart {
+
+	font-size:25;
 	color:#ffffff;
 	background-color: #0B61FF;
 	width:50; 
